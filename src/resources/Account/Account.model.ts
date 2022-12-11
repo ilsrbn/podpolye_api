@@ -17,6 +17,6 @@ export class AccountModel {
   @Column({ select: false })
   password: string
 
-  @OneToMany(() => PostModel, (post) => post.owner, { onDelete: "CASCADE" })
+  @OneToMany(() => PostModel, (post) => post.owner)
   posts: PostModel[];
 }

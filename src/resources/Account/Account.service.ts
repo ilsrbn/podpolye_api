@@ -2,20 +2,13 @@ import { Request, Response } from "express";
 import { AccountModel } from "./Account.model";
 import DS from "../../db";
 import bcrypt from 'bcrypt'
+import jwt, { VerifyCallback, VerifyErrors } from "jsonwebtoken";
+import dotenv from 'dotenv'
+dotenv.config()
+
 
 const AccountRepo = DS.getRepository(AccountModel);
 
-export const logout = async (req: Request, resp: Response) => {
-  try {
-    if (req.session) {
-      req.session.destroy(() => { })
-    } else {
-      resp.sendStatus(200)
-    }
-  } catch (e) {
-    console.log(e);
-  }
-}
 
 export const login = async (req: Request, resp: Response) => {
   try {
@@ -32,11 +25,13 @@ export const login = async (req: Request, resp: Response) => {
     })
     const isMatch = await comparePasswords(password, user.password)
     if (!isMatch) resp.status(401).send({ message: "Invalid credentials" })
-    req.session.user = {
-      username: user.username,
-      id: username.id
-    }
-    resp.send(user)
+    // req.session.user = {
+    //   username: user.username,
+    //   id: username.id
+    // }
+
+    const access_token = generateAccessToken({ username: user.username, id: user.id })
+    resp.send({ ...user, access_token })
 
   } catch (e) {
     console.log(e);
@@ -66,4 +61,9 @@ const hashPassword = (oldPassword: string): string => {
 
 const comparePasswords = (passFromJSON: string, passFromDB: string) => {
   return bcrypt.compare(passFromJSON, passFromDB)
+}
+
+const generateAccessToken = (user: { username: string, id: number }) => {
+  const secret = process.env.ACCESS_SECRET || 'hello'
+  return jwt.sign(user, secret, { expiresIn: '3h' })
 }

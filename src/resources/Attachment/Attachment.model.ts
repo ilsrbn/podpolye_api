@@ -6,7 +6,9 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany
+  OneToMany,
+  JoinColumn,
+  OneToOne
 } from "typeorm";
 
 @Entity()
@@ -17,10 +19,11 @@ export class AttachmentModel {
   @Column()
   file_url: string
 
-  @Column({ select: false })
+  @Column()
   file: string
 
-  @ManyToOne(() => PostModel, (post) => post.attachments, { onDelete: "CASCADE" })
+  @ManyToOne(() => PostModel, (post) => post.attachments, { onDelete: "CASCADE", orphanedRowAction: 'delete' })
+  @JoinColumn()
   post: PostModel
 
   @CreateDateColumn()
@@ -28,5 +31,6 @@ export class AttachmentModel {
 
   @UpdateDateColumn()
   updated_at: Date;
+
 
 }

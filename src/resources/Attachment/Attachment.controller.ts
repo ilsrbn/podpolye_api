@@ -7,7 +7,7 @@ import {
 
 const AttachmentController = express.Router();
 
-AttachmentController.post('/', createAttachment)
-AttachmentController.delete('/:id', removeAttachment)
+AttachmentController.post('/', isLoggedIn, createAttachment)
+AttachmentController.delete('/:id', isLoggedIn, removeAttachment)
 
 export default AttachmentController;
