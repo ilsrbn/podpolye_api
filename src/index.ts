@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import cors from 'cors'
 import fileUpload from 'express-fileupload'
 import morgan from "morgan";
+import compression from 'compression';
 import DS from "./db";
 
 import AccountController from "./resources/Account/Account.controller";
@@ -18,6 +19,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors())
+app.use(compression());
 
 app.use(fileUpload({
   createParentPath: true
@@ -43,6 +45,6 @@ app.use('/api/admin/post', isLoggedIn, PostController)
 app.use('/api/attachment', AttachmentController)
 app.use('/api/post', PostController)
 
-app.listen(3000, () => {
-  console.log("The application is listening on port 3000!");
+app.listen(3005, () => {
+  console.log("The application is listening on port 3005!");
 });

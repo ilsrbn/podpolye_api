@@ -10,34 +10,35 @@ const AttachmentRepo = DS.getRepository(AttachmentModel);
 const PostRepo = DS.getRepository(PostModel)
 
 export const createAttachment = async (req: Request, resp: Response) => {
+
   try {
-    try {
-      //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
-      let file = req.files?.file as UploadedFile
-      const { post_id } = req.body
+    //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
+    let file = req.files?.file as UploadedFile
+    const { post_id } = req.body
 
-      if (!file || !post_id) resp.sendStatus(400)
-      const post = await PostRepo.findOneByOrFail({ id: +post_id })
+    if (!file || !post_id) resp.sendStatus(400)
+    const post = await PostRepo.findOneByOrFail({ id: +post_id })
 
-      const name = v4()
-      const extension = "." + file.name.split(".")[1]
-      const path = './uploads/attachment/'
-      file.mv(path + name + extension);
-      //send response
-      const newAttachment = new AttachmentModel()
-      const url = "http://localhost:3000" + "/attachment/" + name + extension
-      newAttachment.file_url = url
-      newAttachment.file = path + name + extension
-      newAttachment.post = post
-      await AttachmentRepo.save(newAttachment)
-      resp.send(newAttachment)
+    const name = v4()
+    const extension = "." + file.name.split(".")[1]
+    const path = './uploads/attachment/'
+    file.mv(path + name + extension);
+    //send response
+    const newAttachment = new AttachmentModel()
+    const url = "https://back.podpolye-api.serbin.co" + "/attachment/" + name + extension
+    newAttachment.file_url = url
+    newAttachment.file = path + name + extension
+    newAttachment.post = post
+    console.log({ newAttachment });
 
-    } catch (err) {
-      resp.status(500).send(err);
-    }
-  } catch (e) {
-    console.log(e);
+    await AttachmentRepo.save(newAttachment)
+    resp.send(newAttachment)
+
+  } catch (err) {
+    resp.status(500).send(err);
+    console.log({ err });
   }
+
 }
 
 export const removeAttachment = async (req: Request, resp: Response) => {

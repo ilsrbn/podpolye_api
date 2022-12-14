@@ -1,0 +1,16 @@
+version: '2'
+services:
+  mysql:
+    container_name: podpolye_mysql
+    restart: always
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 'aloha728' # TODO: Change this
+      MYSQL_USER: 'padmin'
+      MYSQL_PASS: 'aloha728'
+    volumes:
+      - podpolye_data:/var/lib/mysql
+    ports:
+      - '3307:3306'
+volumes:
+  podpolye_data:
