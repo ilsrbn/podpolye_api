@@ -9,6 +9,6 @@ import {
 const AccountController = express.Router();
 
 AccountController.post("/login", login);
-AccountController.post("/register", createAccount);
+// AccountController.post("/register", createAccount);
 
 export default AccountController;
