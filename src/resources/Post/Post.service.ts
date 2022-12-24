@@ -101,7 +101,7 @@ export const getAllPosts = async (req: Request, resp: Response) => {
       .orWhere(`MATCH(description) AGAINST ('+${search}*' IN BOOLEAN MODE)`)
       .leftJoinAndSelect('post.attachments', 'attachments')
       .getMany();
-    else posts = await PostRepo.find({ relations: { attachments: true }, order: { id: "DESC" } })
+    else posts = await PostRepo.find({ relations: { attachments: true }, order: { event_date: "DESC" } })
 
     console.log({ search, posts });
 
