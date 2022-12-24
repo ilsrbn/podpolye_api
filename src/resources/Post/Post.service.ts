@@ -15,12 +15,12 @@ export const createPost = async (req: Request, resp: Response) => {
     const { title, description, posted, event_date } = req.body
     const username = req.query.username as string
 
-    if (!title || !description) resp.sendStatus(400)
+    if (!title) resp.sendStatus(400)
     const owner = await AccountRepo.findOneByOrFail({ username })
     const newPost = new PostModel()
     newPost.title = title
     newPost.slug = slugify(title, { lower: true })
-    newPost.description = description
+    newPost.description = description ? description : ''
     newPost.posted = posted ?? true
     newPost.owner = owner
     if (event_date) newPost.event_date = event_date
