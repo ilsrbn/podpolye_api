@@ -58,7 +58,7 @@ export const getPostBySlug = async (req: Request, resp: Response) => {
   try {
     const { slug } = req.params
     const post = await PostRepo.findOneOrFail({
-      where: { slug },
+      where: { id: +slug },
       relations: { attachments: true },
       select: {
         id: true,
