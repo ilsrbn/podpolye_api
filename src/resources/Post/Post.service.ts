@@ -94,14 +94,17 @@ export const getAllPosts = async (req: Request, resp: Response) => {
   try {
     const { search } = req.query
     let posts
+    const isAdmin = req.baseUrl.split('/').findIndex(el => el === 'admin') !== -1
+    const orderBy = isAdmin ? 'id' : 'event_date'
     if (search) posts = await PostRepo
       .createQueryBuilder('post')
       .select()
       .where(`MATCH(title) AGAINST ('+${search}*' IN BOOLEAN MODE)`)
       .orWhere(`MATCH(description) AGAINST ('+${search}*' IN BOOLEAN MODE)`)
       .leftJoinAndSelect('post.attachments', 'attachments')
+      .orderBy(orderBy, 'DESC')
       .getMany();
-    else posts = await PostRepo.find({ relations: { attachments: true }, order: { event_date: "DESC" } })
+    else posts = await PostRepo.find({ relations: { attachments: true }, order: { [orderBy]: "DESC" } })
 
     console.log({ search, posts });
 
