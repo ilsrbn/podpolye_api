@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'NuxtAppName',
+      name: 'podpolye_back',
       exec_mode: 'cluster',
       instances: 'max',
       script: './dist/src/main.js',
