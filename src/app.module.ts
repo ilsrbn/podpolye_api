@@ -18,9 +18,6 @@ import { MulterModule } from '@nestjs/platform-express';
     AuthModule,
     PostModule,
     AttachmentModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../..', 'client', 'dist'),
-    }),
     MulterModule.register({
       dest: './public',
     }),

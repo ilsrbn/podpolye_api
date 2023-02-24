@@ -33,7 +33,7 @@ __decorate([
 ], Post.prototype, "title", void 0);
 __decorate([
     (0, typeorm_1.Index)({ fulltext: true }),
-    (0, typeorm_1.Column)({ type: 'text', default: '' }),
+    (0, typeorm_1.Column)({ type: 'text' }),
     __metadata("design:type", String)
 ], Post.prototype, "description", void 0);
 __decorate([

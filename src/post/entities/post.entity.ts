@@ -22,7 +22,7 @@ export class Post {
   title: string;
 
   @Index({ fulltext: true })
-  @Column({ type: 'text', default: '' })
+  @Column({ type: 'text' })
   description: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
