@@ -6,9 +6,10 @@ dotenv.config();
 const USERNAME = process.env.MYSQL_USERNAME || 'admin';
 const PASSWORD = process.env.MYSQL_PASSWORD || 'admin';
 const DATABASE = process.env.MYSQL_DATABASE || 'admin';
+const DB_TYPE = process.env.MYSQL_DATABASE_TYPE || 'mysql';
 
 console.log({
-  type: 'mariadb',
+  type: DB_TYPE,
   host: 'localhost',
   port: 3306,
   entities: ['dist/**/*.entity.js'],
@@ -19,7 +20,9 @@ console.log({
 });
 
 export const dataSourceOptions: DataSourceOptions = {
-  type: 'mariadb',
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  type: DB_TYPE,
   host: 'localhost',
   port: 3306,
   entities: ['dist/**/*.entity.js'],
