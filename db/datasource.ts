@@ -23,7 +23,7 @@ export const dataSourceOptions: DataSourceOptions = {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   type: DB_TYPE,
-  host: 'localhost',
+  host: '127.0.0.1',
   port: 3306,
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/db/migrations/*.js'],
