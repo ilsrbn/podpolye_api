@@ -49,7 +49,7 @@ export class PostService {
     return post;
   }
 
-  async findAll(search?: string): Promise<Post[]> {
+  async findAll(search: string, orderBy: string): Promise<Post[]> {
     let posts;
     if (!isEmpty(search)) {
       posts = await this.postRepository
@@ -58,9 +58,10 @@ export class PostService {
         .where(`MATCH(title) AGAINST ('+${search}*' IN BOOLEAN MODE)`)
         .orWhere(`MATCH(description) AGAINST ('+${search}*' IN BOOLEAN MODE)`)
         .leftJoinAndSelect('post.attachments', 'attachments')
-        .orderBy('event_date', 'DESC')
+        .orderBy(orderBy, 'DESC')
         .getMany();
-    } else posts = await this.postRepository.find();
+    } else
+      posts = await this.postRepository.find({ order: { [orderBy]: 'DESC' } });
     return posts;
   }
 

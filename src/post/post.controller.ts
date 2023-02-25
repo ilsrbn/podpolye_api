@@ -15,6 +15,7 @@ import { ApiOperation, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { User } from 'utils/request.decorators';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { orderBy } from 'lodash';
 
 @ApiTags('Admin Post')
 @ApiBearerAuth()
@@ -42,9 +43,9 @@ export class AdminPostController {
 
   @ApiOperation({ summary: 'Get all posts' })
   @UseGuards(JwtAuthGuard)
-  @Get()
-  findAll(@Query() search?: string) {
-    return this.postService.findAll(search);
+  @Get('?')
+  findAll(@Query('search') search: string) {
+    return this.postService.findAll(search, 'id');
   }
 
   @ApiOperation({ summary: 'Get post by ID' })
@@ -69,8 +70,8 @@ export class PostController {
 
   @ApiOperation({ summary: 'Get all posts' })
   @Get()
-  findAll(@Query() search?: string) {
-    return this.postService.findAll(search);
+  findAll(@Query('search') search: string) {
+    return this.postService.findAll(search, 'event_date');
   }
 
   @ApiOperation({ summary: 'Get post by ID' })
