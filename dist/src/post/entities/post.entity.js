@@ -19,7 +19,7 @@ let Post = class Post {
         this.posted = false;
     }
     static _OPENAPI_METADATA_FACTORY() {
-        return { id: { required: true, type: () => Number }, title: { required: true, type: () => String }, description: { required: true, type: () => String }, event_date: { required: true, type: () => String }, owner: { required: true, type: () => require("../../account/entities/account.entity").Account }, ownerId: { required: true, type: () => Number }, attachments: { required: true, type: () => [require("../../attachment/entities/attachment.entity").Attachment] }, created_at: { required: true, type: () => Date }, updated_at: { required: true, type: () => Date }, posted: { required: true, type: () => Object, default: false } };
+        return { id: { required: true, type: () => Number }, title: { required: true, type: () => String }, description: { required: false, type: () => String }, event_date: { required: true, type: () => String }, owner: { required: true, type: () => require("../../account/entities/account.entity").Account }, ownerId: { required: true, type: () => Number }, attachments: { required: true, type: () => [require("../../attachment/entities/attachment.entity").Attachment] }, created_at: { required: true, type: () => Date }, updated_at: { required: true, type: () => Date }, posted: { required: true, type: () => Object, default: false } };
     }
 };
 __decorate([
@@ -33,7 +33,7 @@ __decorate([
 ], Post.prototype, "title", void 0);
 __decorate([
     (0, typeorm_1.Index)({ fulltext: true }),
-    (0, typeorm_1.Column)({ type: 'text' }),
+    (0, typeorm_1.Column)({ type: 'text', nullable: true }),
     __metadata("design:type", String)
 ], Post.prototype, "description", void 0);
 __decorate([

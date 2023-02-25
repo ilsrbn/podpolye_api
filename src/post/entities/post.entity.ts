@@ -22,8 +22,8 @@ export class Post {
   title: string;
 
   @Index({ fulltext: true })
-  @Column({ type: 'text' })
-  description: string;
+  @Column({ type: 'text', nullable: true })
+  description?: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   event_date: string;

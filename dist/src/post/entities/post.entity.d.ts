@@ -3,7 +3,7 @@ import { Attachment } from 'src/attachment/entities/attachment.entity';
 export declare class Post {
     id: number;
     title: string;
-    description: string;
+    description?: string;
     event_date: string;
     owner: Account;
     ownerId: number;
