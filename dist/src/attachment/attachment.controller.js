@@ -20,6 +20,7 @@ const swagger_1 = require("@nestjs/swagger");
 const platform_express_1 = require("@nestjs/platform-express");
 const path_1 = require("path");
 const multer_1 = require("multer");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 let AttachmentController = class AttachmentController {
     constructor(attachmentService) {
         this.attachmentService = attachmentService;
@@ -33,6 +34,7 @@ let AttachmentController = class AttachmentController {
 };
 __decorate([
     (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiBody)({
         schema: {
             type: 'object',
@@ -67,6 +69,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AttachmentController.prototype, "create", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Delete)(':id'),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id')),
@@ -75,8 +78,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AttachmentController.prototype, "remove", null);
 AttachmentController = __decorate([
-    (0, swagger_1.ApiTags)('attachment'),
-    (0, common_1.Controller)('attachment'),
+    (0, swagger_1.ApiTags)('Admin Attachment'),
+    (0, common_1.Controller)('admin/attachment'),
     __metadata("design:paramtypes", [attachment_service_1.AttachmentService])
 ], AttachmentController);
 exports.AttachmentController = AttachmentController;

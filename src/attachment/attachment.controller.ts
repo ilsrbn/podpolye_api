@@ -1,29 +1,27 @@
 import {
   Controller,
-  Get,
   Post,
-  Body,
-  Patch,
   Param,
   Delete,
   UseInterceptors,
   UploadedFiles,
+  UseGuards,
 } from '@nestjs/common';
 import { AttachmentService } from './attachment.service';
-import { CreateAttachmentDto } from './dto/create-attachment.dto';
-import { UpdateAttachmentDto } from './dto/update-attachment.dto';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import e, { Express } from 'express';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@ApiTags('attachment')
-@Controller('attachment')
+@ApiTags('Admin Attachment')
+@Controller('admin/attachment')
 export class AttachmentController {
   constructor(private readonly attachmentService: AttachmentService) {}
 
   @ApiConsumes('multipart/form-data')
+  @UseGuards(JwtAuthGuard)
   @ApiBody({
     schema: {
       type: 'object',
@@ -65,6 +63,7 @@ export class AttachmentController {
     return this.attachmentService.create(files, +id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.attachmentService.remove(+id);

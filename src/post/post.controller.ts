@@ -16,10 +16,10 @@ import { User } from 'utils/request.decorators';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UpdatePostDto } from './dto/update-post.dto';
 
-@ApiTags('post')
+@ApiTags('Admin Post')
 @ApiBearerAuth()
-@Controller('post')
-export class PostController {
+@Controller('admin/post')
+export class AdminPostController {
   constructor(private readonly postService: PostService) {}
 
   @ApiOperation({ summary: 'Create post' })
@@ -41,6 +41,33 @@ export class PostController {
   }
 
   @ApiOperation({ summary: 'Get all posts' })
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  findAll(@Query() search?: string) {
+    return this.postService.findAll(search);
+  }
+
+  @ApiOperation({ summary: 'Get post by ID' })
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.postService.findOne(+id);
+  }
+
+  @ApiOperation({ summary: 'Delete post by ID' })
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.postService.delete(+id);
+  }
+}
+
+@ApiTags('Post')
+@Controller('post')
+export class PostController {
+  constructor(private readonly postService: PostService) {}
+
+  @ApiOperation({ summary: 'Get all posts' })
   @Get()
   findAll(@Query() search?: string) {
     return this.postService.findAll(search);
@@ -50,11 +77,5 @@ export class PostController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.postService.findOne(+id);
-  }
-
-  @ApiOperation({ summary: 'Delete post by ID' })
-  @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.postService.delete(+id);
   }
 }

@@ -9,9 +9,9 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors({
     origin: [
-      'https://podpolye-dashboard.vercel.app',
       'https://dashboard.podpolye.org',
-      'localhost:3000',
+      'http://localhost:3000',
+      'http://localhost:3111',
     ],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
@@ -25,6 +25,7 @@ async function bootstrap() {
     .setVersion('1')
     .addBearerAuth()
     .addServer('http://localhost:3000')
+    .addServer('https://api.podpolye.org')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/documentation', app, document);

@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostController = void 0;
+exports.PostController = exports.AdminPostController = void 0;
 const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const post_service_1 = require("./post.service");
@@ -21,7 +21,7 @@ const swagger_1 = require("@nestjs/swagger");
 const request_decorators_1 = require("../../utils/request.decorators");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 const update_post_dto_1 = require("./dto/update-post.dto");
-let PostController = class PostController {
+let AdminPostController = class AdminPostController {
     constructor(postService) {
         this.postService = postService;
     }
@@ -51,7 +51,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_post_dto_1.CreatePostDto, Number]),
     __metadata("design:returntype", void 0)
-], PostController.prototype, "create", null);
+], AdminPostController.prototype, "create", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Edit post' }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
@@ -63,7 +63,55 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_post_dto_1.UpdatePostDto, Number]),
     __metadata("design:returntype", void 0)
-], PostController.prototype, "edit", null);
+], AdminPostController.prototype, "edit", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Get all posts' }),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)(),
+    openapi.ApiResponse({ status: 200, type: [require("./entities/post.entity").Post] }),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AdminPostController.prototype, "findAll", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Get post by ID' }),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)(':id'),
+    openapi.ApiResponse({ status: 200, type: require("./entities/post.entity").Post }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AdminPostController.prototype, "findOne", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Delete post by ID' }),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Delete)(':id'),
+    openapi.ApiResponse({ status: 200 }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AdminPostController.prototype, "delete", null);
+AdminPostController = __decorate([
+    (0, swagger_1.ApiTags)('Admin Post'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.Controller)('admin/post'),
+    __metadata("design:paramtypes", [post_service_1.PostService])
+], AdminPostController);
+exports.AdminPostController = AdminPostController;
+let PostController = class PostController {
+    constructor(postService) {
+        this.postService = postService;
+    }
+    findAll(search) {
+        return this.postService.findAll(search);
+    }
+    findOne(id) {
+        return this.postService.findOne(+id);
+    }
+};
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get all posts' }),
     (0, common_1.Get)(),
@@ -82,18 +130,8 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "findOne", null);
-__decorate([
-    (0, swagger_1.ApiOperation)({ summary: 'Delete post by ID' }),
-    (0, common_1.Delete)(':id'),
-    openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], PostController.prototype, "delete", null);
 PostController = __decorate([
-    (0, swagger_1.ApiTags)('post'),
-    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiTags)('Post'),
     (0, common_1.Controller)('post'),
     __metadata("design:paramtypes", [post_service_1.PostService])
 ], PostController);

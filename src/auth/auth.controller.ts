@@ -7,8 +7,8 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Account } from 'src/account/entities/account.entity';
 import { User } from '../../utils/request.decorators';
 
-@ApiTags('Authorization')
-@Controller('auth')
+@ApiTags('Admin Authorization')
+@Controller('admin/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

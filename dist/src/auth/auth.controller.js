@@ -65,8 +65,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getProfile", null);
 AuthController = __decorate([
-    (0, swagger_1.ApiTags)('Authorization'),
-    (0, common_1.Controller)('auth'),
+    (0, swagger_1.ApiTags)('Admin Authorization'),
+    (0, common_1.Controller)('admin/auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 exports.AuthController = AuthController;
