@@ -8,6 +8,9 @@ import { Repository } from 'typeorm';
 import { PostService } from '../post/post.service';
 import * as dotenv from 'dotenv';
 import { unlink } from 'node:fs';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import * as sharp from 'sharp';
 
 dotenv.config();
 
@@ -29,9 +32,18 @@ export class AttachmentService {
   async create(filesArray: Array<Express.Multer.File>, postId: number) {
     const post = await this.postService.findOne(postId);
     const domainUrl = process.env.API_DOMAIN || 'localhost:3000';
-    for (const file of filesArray) {
-      const fileUrl = domainUrl + '/' + file.path;
-      const filePath = file.path;
+    for (const oldFile of filesArray) {
+      const filePath = oldFile.path.split('.')[0] + '.webp';
+      const fileUrl = domainUrl + '/' + filePath;
+
+      await sharp(oldFile.path)
+        .webp({ quality: 60 })
+        .rotate()
+        .toFile('./public/' + oldFile.filename.split('.')[0] + '.webp');
+
+      unlink(oldFile.path, (err) => {
+        if (err) console.log({ err });
+      });
       const attachment = this.attachmentRepository.create({
         post,
         file: filePath,
