@@ -7,7 +7,13 @@ const app_module_1 = require("./app.module");
 const path_1 = require("path");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
-    app.enableCors();
+    app.enableCors({
+        origin: [
+            'https://podpolye-dashboard.vercel.app',
+            'https://dashboard.podpolye.org',
+            'localhost:3000',
+        ],
+    });
     app.useGlobalPipes(new common_1.ValidationPipe());
     app.useStaticAssets((0, path_1.join)(__dirname, '../..', 'public'), {
         prefix: '/public/',

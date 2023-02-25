@@ -7,7 +7,13 @@ import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors();
+  app.enableCors({
+    origin: [
+      'https://podpolye-dashboard.vercel.app',
+      'https://dashboard.podpolye.org',
+      'localhost:3000',
+    ],
+  });
   app.useGlobalPipes(new ValidationPipe());
   app.useStaticAssets(join(__dirname, '../..', 'public'), {
     prefix: '/public/',
