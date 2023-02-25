@@ -13,6 +13,7 @@ async function bootstrap() {
       'https://dashboard.podpolye.org',
       'localhost:3000',
     ],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
   app.useGlobalPipes(new ValidationPipe());
   app.useStaticAssets(join(__dirname, '../..', 'public'), {
