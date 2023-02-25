@@ -10,6 +10,8 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'https://dashboard.podpolye.org',
+      'https://redesign.podpolye.org',
+      'https://podpolye.org',
       'http://localhost:3000',
       'http://localhost:3111',
     ],
