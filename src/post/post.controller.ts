@@ -77,6 +77,6 @@ export class PostController {
   @ApiOperation({ summary: 'Get post by ID' })
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.postService.findOne(+id);
+    return this.postService.findOne(+id, true);
   }
 }

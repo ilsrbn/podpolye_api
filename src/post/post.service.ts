@@ -65,10 +65,11 @@ export class PostService {
     return posts;
   }
 
-  findOne(id: number): Promise<Post> {
-    return this.postRepository.findOneOrFail({
+  findOne(id: number, posted?: boolean): Promise<Post | null> {
+    return this.postRepository.findOne({
       where: {
         id,
+        posted,
       },
     });
   }

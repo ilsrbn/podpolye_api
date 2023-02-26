@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 // import { v4 } from 'uuid';
 import { UpdateAttachmentDto } from './dto/update-attachment.dto';
 import { Express } from 'express';
@@ -31,6 +31,7 @@ export class AttachmentService {
 
   async create(filesArray: Array<Express.Multer.File>, postId: number) {
     const post = await this.postService.findOne(postId);
+    if (!post) throw new NotFoundException('Post not found');
     const domainUrl = process.env.API_DOMAIN || 'localhost:3000';
     for (const oldFile of filesArray) {
       const filePath = oldFile.path.split('.')[0] + '.webp';
